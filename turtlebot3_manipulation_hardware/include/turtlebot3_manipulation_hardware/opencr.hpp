@@ -95,16 +95,16 @@ public:
 
   bool set_wheel_velocities(const std::vector<double> & velocities);
 
-  std::array<double, 4> get_joint_positions();
-  std::array<double, 4> get_joint_velocities();
+  std::array<double, 6> get_joint_positions();
+  std::array<double, 6> get_joint_velocities();
 
   double get_gripper_position();
   double get_gripper_velocity();
 
   bool set_joint_positions(const std::vector<double> & radians);
   bool set_joint_profile_acceleration(
-    const std::array<int32_t, 4> & acceleration);
-  bool set_joint_profile_velocity(const std::array<int32_t, 4> & velocity);
+    const std::array<int32_t, 6> & acceleration);
+  bool set_joint_profile_velocity(const std::array<int32_t, 6> & velocity);
 
   bool set_gripper_position(const double & meters);
   bool set_gripper_profile_acceleration(const int32_t & acceleration);
@@ -128,7 +128,7 @@ public:
 private:
   bool set_joints_variables(
     const uint16_t & address,
-    const std::array<int32_t, 4> & variables);
+    const std::array<int32_t, 6> & variables);
 
   bool set_gripper_variables(
     const uint16_t & address, const int32_t & variables);

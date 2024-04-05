@@ -26,29 +26,11 @@ from launch.substitutions import PathJoinSubstitution
 from launch.substitutions import LaunchConfiguration
 from launch.substitutions import ThisLaunchFileDir
 
+from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
-    LDS_MODEL = os.environ['LDS_MODEL']
-
-    if LDS_MODEL == 'LDS-01':
-        lidar_launch = PathJoinSubstitution(
-            [
-                FindPackageShare('hls_lfcd_lds_driver'),
-                'launch',
-                'hlds_laser.launch.py'
-            ]
-        )
-    elif LDS_MODEL == 'LDS-02':
-        lidar_launch = PathJoinSubstitution(
-            [
-                FindPackageShare('ld08_driver'),
-                'launch',
-                'ld08.launch.py'
-            ]
-        )
-
     start_rviz = LaunchConfiguration('start_rviz')
     prefix = LaunchConfiguration('prefix')
     use_fake_hardware = LaunchConfiguration('use_fake_hardware')
@@ -77,16 +59,21 @@ def generate_launch_description():
                 'use_fake_hardware': use_fake_hardware,
             }.items(),
         ),
-
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(
-                [
-                    lidar_launch
-                ]
-            ),
-            launch_arguments={
-                'port': '/dev/ttyUSB0',
-                'frame_id': 'base_scan',
-            }.items(),
-        ),
+        Node(
+            package='ldlidar_stl_ros2',
+            executable='ldlidar_stl_ros2_node',
+            name='LD19',
+            output='screen',
+            parameters=[
+                {'product_name': 'LDLiDAR_LD19'},
+                {'topic_name': 'scan'},
+                {'frame_id': 'base_scan'},
+                {'port_name': '/dev/ttyUSB0'},
+                {'port_baudrate': 230400},
+                {'laser_scan_dir': True},
+                {'enable_angle_crop_func': True},
+                {'angle_crop_min': 135.0},
+                {'angle_crop_max': 225.0}
+            ]
+        )
     ])

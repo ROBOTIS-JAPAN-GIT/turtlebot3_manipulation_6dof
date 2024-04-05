@@ -49,11 +49,15 @@ hardware_interface::CallbackReturn TurtleBot3ManipulationSystemHardware::on_init
   joints_acceleration_[1] = stoi(info_.hardware_parameters["dxl_joints_profile_acceleration"]);
   joints_acceleration_[2] = stoi(info_.hardware_parameters["dxl_joints_profile_acceleration"]);
   joints_acceleration_[3] = stoi(info_.hardware_parameters["dxl_joints_profile_acceleration"]);
+  joints_acceleration_[4] = stoi(info_.hardware_parameters["dxl_joints_profile_acceleration"]);
+  joints_acceleration_[5] = stoi(info_.hardware_parameters["dxl_joints_profile_acceleration"]);
 
   joints_velocity_[0] = stoi(info_.hardware_parameters["dxl_joints_profile_velocity"]);
   joints_velocity_[1] = stoi(info_.hardware_parameters["dxl_joints_profile_velocity"]);
   joints_velocity_[2] = stoi(info_.hardware_parameters["dxl_joints_profile_velocity"]);
   joints_velocity_[3] = stoi(info_.hardware_parameters["dxl_joints_profile_velocity"]);
+  joints_velocity_[4] = stoi(info_.hardware_parameters["dxl_joints_profile_velocity"]);
+  joints_velocity_[5] = stoi(info_.hardware_parameters["dxl_joints_profile_velocity"]);
 
   gripper_acceleration_ = stoi(info_.hardware_parameters["dxl_gripper_profile_acceleration"]);
   gripper_velocity_ = stoi(info_.hardware_parameters["dxl_gripper_profile_velocity"]);
@@ -92,11 +96,13 @@ hardware_interface::CallbackReturn TurtleBot3ManipulationSystemHardware::on_init
 
   dxl_wheel_commands_.resize(2, 0.0);
 
-  dxl_joint_commands_.resize(4, 0.0);
+  dxl_joint_commands_.resize(6, 0.0);
   dxl_joint_commands_[0] = 0.0;
-  dxl_joint_commands_[1] = -1.57;
-  dxl_joint_commands_[2] = 1.37;
-  dxl_joint_commands_[3] = 0.26;
+  dxl_joint_commands_[1] = -1.10;
+  dxl_joint_commands_[2] = 1.87;
+  dxl_joint_commands_[3] = 0.0;
+  dxl_joint_commands_[4] = 0.98;
+  dxl_joint_commands_[5] = 0.0;
 
   dxl_gripper_commands_.resize(2, 0.0);
 
@@ -162,13 +168,19 @@ TurtleBot3ManipulationSystemHardware::export_command_interfaces()
   command_interfaces.emplace_back(
     hardware_interface::CommandInterface(
       info_.joints[5].name, hardware_interface::HW_IF_POSITION, &dxl_joint_commands_[3]));
+  command_interfaces.emplace_back(
+      hardware_interface::CommandInterface(
+      info_.joints[6].name, hardware_interface::HW_IF_POSITION, &dxl_joint_commands_[4]));
+  command_interfaces.emplace_back(
+      hardware_interface::CommandInterface(
+      info_.joints[7].name, hardware_interface::HW_IF_POSITION, &dxl_joint_commands_[5]));
 
   command_interfaces.emplace_back(
     hardware_interface::CommandInterface(
-      info_.joints[6].name, hardware_interface::HW_IF_POSITION, &dxl_gripper_commands_[0]));
+      info_.joints[8].name, hardware_interface::HW_IF_POSITION, &dxl_gripper_commands_[0]));
   command_interfaces.emplace_back(
     hardware_interface::CommandInterface(
-      info_.joints[7].name, hardware_interface::HW_IF_POSITION, &dxl_gripper_commands_[1]));
+      info_.joints[9].name, hardware_interface::HW_IF_POSITION, &dxl_gripper_commands_[1]));
 
   return command_interfaces;
 }
@@ -243,11 +255,17 @@ hardware_interface::return_type TurtleBot3ManipulationSystemHardware::read(
   dxl_positions_[5] = opencr_->get_joint_positions()[opencr::joints::JOINT4];
   dxl_velocities_[5] = opencr_->get_joint_velocities()[opencr::joints::JOINT4];
 
-  dxl_positions_[6] = opencr_->get_gripper_position();
-  dxl_velocities_[6] = opencr_->get_gripper_velocity();
+  dxl_positions_[6] = opencr_->get_joint_positions()[opencr::joints::JOINT5];
+  dxl_velocities_[6] = opencr_->get_joint_velocities()[opencr::joints::JOINT5];
 
-  dxl_positions_[7] = opencr_->get_gripper_position();
-  dxl_velocities_[7] = opencr_->get_gripper_velocity();
+  dxl_positions_[7] = opencr_->get_joint_positions()[opencr::joints::JOINT6];
+  dxl_velocities_[7] = opencr_->get_joint_velocities()[opencr::joints::JOINT6];
+
+  dxl_positions_[8] = opencr_->get_gripper_position();
+  dxl_velocities_[8] = opencr_->get_gripper_velocity();
+
+  dxl_positions_[9] = opencr_->get_gripper_position();
+  dxl_velocities_[9] = opencr_->get_gripper_velocity();
 
   opencr_sensor_states_[0] = opencr_->get_imu().orientation.x;
   opencr_sensor_states_[1] = opencr_->get_imu().orientation.y;

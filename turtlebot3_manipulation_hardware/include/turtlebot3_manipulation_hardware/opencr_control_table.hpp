@@ -19,7 +19,7 @@
 
 #include <stdint.h>
 
-#define CONTROL_TABLE_SIZE 344
+#define CONTROL_TABLE_SIZE 392
 
 namespace robotis
 {
@@ -108,55 +108,69 @@ typedef struct
   ControlItem goal_position_joint_2 = {204, 4};
   ControlItem goal_position_joint_3 = {208, 4};
   ControlItem goal_position_joint_4 = {212, 4};
-  ControlItem goal_position_gripper = {216, 4};
+  ControlItem goal_position_joint_5 = {216, 4};
+  ControlItem goal_position_joint_6 = {220, 4};
+  ControlItem goal_position_gripper = {224, 4};
 
-  ControlItem goal_position_write_joints = {220, 1};
-  ControlItem goal_position_write_gripper = {221, 1};
+  ControlItem goal_position_write_joints = {228, 1};
+  ControlItem goal_position_write_gripper = {229, 1};
 
-  ControlItem present_position_joint_1 = {224, 4};
-  ControlItem present_position_joint_2 = {228, 4};
-  ControlItem present_position_joint_3 = {232, 4};
-  ControlItem present_position_joint_4 = {236, 4};
-  ControlItem present_position_gripper = {240, 4};
+  ControlItem present_position_joint_1 = {232, 4};
+  ControlItem present_position_joint_2 = {236, 4};
+  ControlItem present_position_joint_3 = {240, 4};
+  ControlItem present_position_joint_4 = {244, 4};
+  ControlItem present_position_joint_5 = {248, 4};
+  ControlItem present_position_joint_6 = {252, 4};
+  ControlItem present_position_gripper = {256, 4};
 
-  ControlItem present_velocity_joint_1 = {244, 4};
-  ControlItem present_velocity_joint_2 = {248, 4};
-  ControlItem present_velocity_joint_3 = {252, 4};
-  ControlItem present_velocity_joint_4 = {256, 4};
-  ControlItem present_velocity_gripper = {260, 4};
+  ControlItem present_velocity_joint_1 = {260, 4};
+  ControlItem present_velocity_joint_2 = {264, 4};
+  ControlItem present_velocity_joint_3 = {268, 4};
+  ControlItem present_velocity_joint_4 = {272, 4};
+  ControlItem present_velocity_joint_5 = {276, 4};
+  ControlItem present_velocity_joint_6 = {280, 4};
+  ControlItem present_velocity_gripper = {284, 4};
 
-  ControlItem present_current_joint_1 = {264, 2};
-  ControlItem present_current_joint_2 = {266, 2};
-  ControlItem present_current_joint_3 = {268, 2};
-  ControlItem present_current_joint_4 = {270, 2};
-  ControlItem present_current_gripper = {272, 2};
+  ControlItem present_current_joint_1 = {288, 2};
+  ControlItem present_current_joint_2 = {290, 2};
+  ControlItem present_current_joint_3 = {292, 2};
+  ControlItem present_current_joint_4 = {294, 2};
+  ControlItem present_current_joint_5 = {296, 2};
+  ControlItem present_current_joint_6 = {298, 2};
+  ControlItem present_current_gripper = {300, 2};
 
-  ControlItem profile_acceleration_joint_1 = {284, 4};
-  ControlItem profile_acceleration_joint_2 = {288, 4};
-  ControlItem profile_acceleration_joint_3 = {292, 4};
-  ControlItem profile_acceleration_joint_4 = {296, 4};
-  ControlItem profile_acceleration_gripper = {300, 4};
+  ControlItem profile_acceleration_joint_1 = {312, 4};
+  ControlItem profile_acceleration_joint_2 = {316, 4};
+  ControlItem profile_acceleration_joint_3 = {320, 4};
+  ControlItem profile_acceleration_joint_4 = {324, 4};
+  ControlItem profile_acceleration_joint_5 = {328, 4};
+  ControlItem profile_acceleration_joint_6 = {332, 4};
+  ControlItem profile_acceleration_gripper = {336, 4};
 
-  ControlItem profile_acceleration_write_joints = {304, 1};
-  ControlItem profile_acceleration_write_gripper = {305, 1};
+  ControlItem profile_acceleration_write_joints = {340, 1};
+  ControlItem profile_acceleration_write_gripper = {341, 1};
 
-  ControlItem profile_velocity_joint_1 = {308, 4};
-  ControlItem profile_velocity_joint_2 = {312, 4};
-  ControlItem profile_velocity_joint_3 = {316, 4};
-  ControlItem profile_velocity_joint_4 = {320, 4};
-  ControlItem profile_velocity_gripper = {324, 4};
+  ControlItem profile_velocity_joint_1 = {344, 4};
+  ControlItem profile_velocity_joint_2 = {348, 4};
+  ControlItem profile_velocity_joint_3 = {352, 4};
+  ControlItem profile_velocity_joint_4 = {356, 4};
+  ControlItem profile_velocity_joint_5 = {360, 4};
+  ControlItem profile_velocity_joint_6 = {364, 4};
+  ControlItem profile_velocity_gripper = {368, 4};
 
-  ControlItem profile_velocity_write_joints = {328, 1};
-  ControlItem profile_velocity_write_gripper = {329, 1};
+  ControlItem profile_velocity_write_joints = {372, 1};
+  ControlItem profile_velocity_write_gripper = {373, 1};
 
-  ControlItem goal_current_joint_1 = {332, 2};
-  ControlItem goal_current_joint_2 = {334, 2};
-  ControlItem goal_current_joint_3 = {336, 2};
-  ControlItem goal_current_joint_4 = {338, 2};
-  ControlItem goal_current_gripper = {340, 2};
+  ControlItem goal_current_joint_1 = {376, 2};
+  ControlItem goal_current_joint_2 = {378, 2};
+  ControlItem goal_current_joint_3 = {380, 2};
+  ControlItem goal_current_joint_4 = {382, 2};
+  ControlItem goal_current_joint_5 = {384, 2};
+  ControlItem goal_current_joint_6 = {386, 2};
+  ControlItem goal_current_gripper = {388, 2};
 
-  ControlItem goal_current_write_joints = {342, 1};
-  ControlItem goal_current_write_gripper = {343, 1};
+  ControlItem goal_current_write_joints = {390, 1};
+  ControlItem goal_current_write_gripper = {391, 1};
 } ControlTable;
 
 const ControlTable opencr_control_table;

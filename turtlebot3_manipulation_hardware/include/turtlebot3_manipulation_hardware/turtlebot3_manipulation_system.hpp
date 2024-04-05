@@ -77,8 +77,8 @@ private:
   uint32_t baud_rate_;
   uint8_t heartbeat_;
 
-  std::array<int32_t, 4> joints_acceleration_;
-  std::array<int32_t, 4> joints_velocity_;
+  std::array<int32_t, 6> joints_acceleration_;
+  std::array<int32_t, 6> joints_velocity_;
 
   int32_t gripper_acceleration_;
   int32_t gripper_velocity_;

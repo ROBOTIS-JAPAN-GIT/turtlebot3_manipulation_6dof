@@ -35,7 +35,7 @@ OpenCR::~OpenCR()
 {
   send_heartbeat(1);
 
-  std::array<int32_t, 4> tick = {2048, 750, 3040, 2500};
+  std::array<int32_t, 6> tick = {2048, 1331, 3267, 2048, 2687, 2048};
   set_joints_variables(opencr_control_table.goal_position_joint_1.address, tick);
   dxl_sdk_wrapper_->write_byte(opencr_control_table.goal_position_write_joints.address, 1);
 
@@ -293,11 +293,11 @@ inline double convert_tick_to_radian(
   return radian;
 }
 
-std::array<double, 4> OpenCR::get_joint_positions()
+std::array<double, 6> OpenCR::get_joint_positions()
 {
-  std::array<double, 4> positions = {0.0, 0.0, 0.0, 0.0};
+  std::array<double, 6> positions = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
-  std::array<int32_t, 4> ticks = {
+  std::array<int32_t, 6> ticks = {
     get_data<int32_t>(
       opencr_control_table.present_position_joint_1.address,
       opencr_control_table.present_position_joint_1.length),
@@ -310,6 +310,12 @@ std::array<double, 4> OpenCR::get_joint_positions()
     get_data<int32_t>(
       opencr_control_table.present_position_joint_4.address,
       opencr_control_table.present_position_joint_4.length),
+    get_data<int32_t>(
+      opencr_control_table.present_position_joint_5.address,
+      opencr_control_table.present_position_joint_5.length),
+    get_data<int32_t>(
+      opencr_control_table.present_position_joint_6.address,
+      opencr_control_table.present_position_joint_6.length),
   };
 
   for (uint8_t i = 0; i < ticks.size(); i++) {
@@ -324,11 +330,11 @@ std::array<double, 4> OpenCR::get_joint_positions()
   return positions;
 }
 
-std::array<double, 4> OpenCR::get_joint_velocities()
+std::array<double, 6> OpenCR::get_joint_velocities()
 {
-  std::array<double, 4> velocities = {0.0, 0.0, 0.0, 0.0};
+  std::array<double, 6> velocities = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
-  std::array<int32_t, 4> rpms = {
+  std::array<int32_t, 6> rpms = {
     get_data<int32_t>(
       opencr_control_table.present_velocity_joint_1.address,
       opencr_control_table.present_velocity_joint_1.length),
@@ -341,6 +347,12 @@ std::array<double, 4> OpenCR::get_joint_velocities()
     get_data<int32_t>(
       opencr_control_table.present_velocity_joint_4.address,
       opencr_control_table.present_velocity_joint_4.length),
+    get_data<int32_t>(
+      opencr_control_table.present_velocity_joint_5.address,
+      opencr_control_table.present_velocity_joint_5.length),
+    get_data<int32_t>(
+      opencr_control_table.present_velocity_joint_6.address,
+      opencr_control_table.present_velocity_joint_6.length),
   };
 
   for (uint8_t i = 0; i < rpms.size(); i++) {
@@ -381,11 +393,11 @@ double OpenCR::get_gripper_velocity()
 
 bool OpenCR::set_joints_variables(
   const uint16_t & address,
-  const std::array<int32_t, 4> & variables)
+  const std::array<int32_t, 6> & variables)
 {
   union Data {
-    int32_t dword[4];
-    uint8_t byte[4 * 4];
+    int32_t dword[6];
+    uint8_t byte[4 * 6];
   } data;
 
   for (uint8_t i = 0; i < variables.size(); i++) {
@@ -393,14 +405,14 @@ bool OpenCR::set_joints_variables(
   }
 
   uint8_t * p_data = &data.byte[0];
-  bool comm_result = dxl_sdk_wrapper_->write(address, 4 * 4, p_data);
+  bool comm_result = dxl_sdk_wrapper_->write(address, 4 * 6, p_data);
 
   return comm_result;
 }
 
 bool OpenCR::set_joint_positions(const std::vector<double> & radians)
 {
-  std::array<int32_t, 4> tick = {0, 0, 0, 0};
+  std::array<int32_t, 6> tick = {0, 0, 0, 0, 0, 0};
   for (uint8_t i = 0; i < radians.size(); i++) {
     tick[i] = convert_radian_to_tick(
       radians[i],
@@ -418,7 +430,7 @@ bool OpenCR::set_joint_positions(const std::vector<double> & radians)
   return comm_result;
 }
 
-bool OpenCR::set_joint_profile_acceleration(const std::array<int32_t, 4> & acceleration)
+bool OpenCR::set_joint_profile_acceleration(const std::array<int32_t, 6> & acceleration)
 {
   bool comm_result = set_joints_variables(
     opencr_control_table.profile_acceleration_joint_1.address, acceleration);
@@ -428,7 +440,7 @@ bool OpenCR::set_joint_profile_acceleration(const std::array<int32_t, 4> & accel
   return comm_result;
 }
 
-bool OpenCR::set_joint_profile_velocity(const std::array<int32_t, 4> & velocity)
+bool OpenCR::set_joint_profile_velocity(const std::array<int32_t, 6> & velocity)
 {
   bool comm_result = set_joints_variables(
     opencr_control_table.profile_velocity_joint_1.address, velocity);
@@ -493,19 +505,19 @@ bool OpenCR::set_gripper_profile_velocity(const int32_t & velocity)
 
 bool OpenCR::set_init_pose()
 {
-  std::vector<double> init_pose = {0.0, -1.57, 1.37, 0.26};
+  std::vector<double> init_pose = {0.0, -1.10, 1.87, 0.0, 0.98, 0.};
   return set_joint_positions(init_pose);
 }
 
 bool OpenCR::set_zero_pose()
 {
-  std::vector<double> zero_pose = {0.0, 0.0, 0.0, 0.0};
+  std::vector<double> zero_pose = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
   return set_joint_positions(zero_pose);
 }
 
 bool OpenCR::set_home_pose()
 {
-  std::vector<double> home_pose = {0.0, -1.05, 0.35, 0.70};
+  std::vector<double> home_pose = {0.0, -1.10, 1.87, 0.0, 0.98, 0.0};
   return set_joint_positions(home_pose);
 }
 
