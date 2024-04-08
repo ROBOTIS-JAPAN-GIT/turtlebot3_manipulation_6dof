@@ -86,7 +86,7 @@ int KeyboardServo::keyLoop()
   puts("---------------------------");
   puts("Use o|k|l|; keys to move turtlebot base and use 'space' key to stop the base");
   puts("Use s|x|z|c|a|d|f|v keys to Cartesian jog");
-  puts("Use 1|2|3|4|q|w|e|r keys to joint jog.");
+  puts("Use 1|2|3|4|5|6|q|w|e|r|t|y keys to joint jog.");
   puts("'ESC' to quit.");
 
   std::thread{std::bind(&KeyboardServo::pub, this)}.detach();
@@ -205,6 +205,18 @@ int KeyboardServo::keyLoop()
         publish_joint_ = true;
         RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint4 +");
         break;
+      case KEYCODE_5:
+          joint_msg_.joint_names.push_back("joint5");
+          joint_msg_.velocities.push_back(ARM_JOINT_VEL);
+          publish_joint_ = true;
+          RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint5 +");
+          break;
+      case KEYCODE_6:
+          joint_msg_.joint_names.push_back("joint6");
+          joint_msg_.velocities.push_back(ARM_JOINT_VEL);
+          publish_joint_ = true;
+          RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint6 +");
+          break;
       case KEYCODE_Q:
         joint_msg_.joint_names.push_back("joint1");
         joint_msg_.velocities.push_back(-ARM_JOINT_VEL);
@@ -229,6 +241,18 @@ int KeyboardServo::keyLoop()
         publish_joint_ = true;
         RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint4 -");
         break;
+      case KEYCODE_T:
+          joint_msg_.joint_names.push_back("joint5");
+          joint_msg_.velocities.push_back(-ARM_JOINT_VEL);
+          publish_joint_ = true;
+          RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint5 -");
+          break;
+      case KEYCODE_Y:
+          joint_msg_.joint_names.push_back("joint6");
+          joint_msg_.velocities.push_back(-ARM_JOINT_VEL);
+          publish_joint_ = true;
+          RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint6 -");
+          break;
       case KEYCODE_ESC:
         RCLCPP_INFO_STREAM(nh_->get_logger(), "quit");
         servoing = false;

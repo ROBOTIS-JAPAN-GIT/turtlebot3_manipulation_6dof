@@ -58,6 +58,8 @@
 #define KEYCODE_W 0x77
 #define KEYCODE_E 0x65
 #define KEYCODE_R 0x72
+#define KEYCODE_T 0x74
+#define KEYCODE_Y 0x79
 
 #define KEYCODE_ESC 0x1B
 
