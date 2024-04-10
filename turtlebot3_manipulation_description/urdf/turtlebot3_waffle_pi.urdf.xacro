@@ -216,7 +216,7 @@ https://github.com/ROBOTIS-GIT/turtlebot3/blob/kinetic-devel/turtlebot3_descript
       </inertial>
     </link>
 
-    <xacro:sensor_d435 parent="base_link" use_nominal_extrinsics="false" add_plug="false" use_mesh="true">
+    <xacro:sensor_d435 parent="base_link" use_nominal_extrinsics="true" add_plug="false" use_mesh="true">
       <origin xyz="0.04855 -0.0175 -0.0142" rpy="0 0 0"/>
     </xacro:sensor_d435>
 
