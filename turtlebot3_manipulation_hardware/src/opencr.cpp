@@ -176,6 +176,7 @@ std::array<double, 2> OpenCR::get_wheel_positions()
 {
   static std::array<int32_t, 2> last_diff_ticks = {0, 0};
   static std::array<int32_t, 2> last_ticks = {0, 0};
+  static bool initialize = true;
   std::array<double, 2> positions = {0.0, 0.0};
 
   std::array<int32_t, 2> ticks = {
@@ -186,6 +187,12 @@ std::array<double, 2> OpenCR::get_wheel_positions()
       opencr_control_table.present_position_right.address,
       opencr_control_table.present_position_right.length)
   };
+
+  if(initialize){
+    last_ticks[opencr::wheels::LEFT] = ticks[opencr::wheels::LEFT];
+    last_ticks[opencr::wheels::RIGHT] = ticks[opencr::wheels::RIGHT];
+    initialize = false;
+  }
 
   positions[opencr::wheels::LEFT] =
     opencr::wheels::TICK_TO_RAD * last_diff_ticks[opencr::wheels::LEFT];
